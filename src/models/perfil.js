@@ -22,6 +22,7 @@ module.exports = (sequelize, DataType) => {
   
     Perfil.associate = (models) => {
         Perfil.belongsTo(models.Raza, { foreignKey: 'Id_raza' });
+        Perfil.belongsTo(models.Animal, { foreignKey: 'Id_Animal' });
         Perfil.belongsTo(models.Genero, { foreignKey: 'Id_genero'});
         Perfil.belongsTo(models.Usuario, { foreignKey: 'Id_usuario'});
     };
