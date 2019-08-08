@@ -18,7 +18,7 @@ module.exports = app => {
           });
       });
   
-      app.route('/ubicacion/:id')
+      app.route('/ubicacion/:Id_ubicacion')
       .get((req, res) => {
         Ubicacion.findOne({where: req.params})
           .then(result => {

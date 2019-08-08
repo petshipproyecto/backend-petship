@@ -18,7 +18,7 @@ module.exports = app => {
           });
       });
   
-      app.route('/perfil/:id')
+      app.route('/perfil/:Id_perfil')
       .get((req, res) => {
         Perfil.findOne({where: req.params})
           .then(result => {

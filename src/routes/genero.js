@@ -18,7 +18,7 @@ module.exports = app => {
           });
       });
   
-      app.route('/genero/:id')
+      app.route('/genero/:Id_genero')
       .get((req, res) => {
         Genero.findOne({where: req.params})
           .then(result => {

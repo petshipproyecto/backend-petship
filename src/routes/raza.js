@@ -18,7 +18,7 @@ module.exports = app => {
         });
     });
 
-    app.route('/raza/:id')
+    app.route('/raza/:Id_raza')
     .get((req, res) => {
       Raza.findOne({where: req.params})
         .then(result => {

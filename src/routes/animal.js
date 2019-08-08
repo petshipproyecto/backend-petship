@@ -18,7 +18,7 @@ module.exports = app => {
         });
     });
 
-  app.route('/animal/:id')
+  app.route('/animal/:Id_animal')
     .get((req, res) => {
       Animal.findOne({where: req.params})
         .then(result => {
