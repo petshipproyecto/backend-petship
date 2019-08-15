@@ -29,7 +29,13 @@ module.exports = app => {
   
       app.route('/usuario/:Id_usuario')
       .get((req, res) => {
-        Usuario.findOne({where: req.params})
+        Usuario.findOne({
+          where: req.params,
+          include: [
+            {model: Ubicacion},
+            {model: Perfil}
+          ]
+        })
           .then(result => {
             if (result) {
               res.json(result);
