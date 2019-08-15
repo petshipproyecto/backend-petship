@@ -11,9 +11,9 @@ module.exports = (sequelize, DataType) => {
         allowNull: false,
       }
     });
-  
-   Genero.associate = (models) => {
-      
+
+    Genero.associate = (models) => {
+      Genero.hasMany(models.Perfil, {foreignKey: "Id_genero"});
     };
   
     return Genero;

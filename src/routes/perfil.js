@@ -1,10 +1,25 @@
 module.exports = app => {
 
     const Perfil = app.db.models.Perfil;
+    const Raza = app.db.models.Raza;
+    const Genero = app.db.models.Genero;
+    const Usuario = app.db.models.Usuario;
+    const Animal = app.db.models.Animal;
   
     app.route('/perfil')
       .get((req, res) => {
-        Perfil.findAll({})
+        Perfil.findAll({
+          include: [
+            {
+              model: Raza,
+              include: [
+                {model: Animal}
+              ]
+            },
+            {model: Genero},
+            {model: Usuario}
+          ]
+        })
           .then(result => res.json(result))
           .catch(error => {
             res.status(412).json({msg: error.message});
@@ -20,7 +35,19 @@ module.exports = app => {
   
       app.route('/perfil/:Id_perfil')
       .get((req, res) => {
-        Perfil.findOne({where: req.params})
+        Perfil.findOne({
+          where: req.params,
+          include: [
+            {
+              model: Raza,
+              include: [
+                {model: Animal}
+              ]
+            },
+            {model: Genero},
+            {model: Usuario}
+          ]
+        })
           .then(result => {
             if (result) {
               res.json(result);

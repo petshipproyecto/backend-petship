@@ -1,10 +1,17 @@
 module.exports = app => {
 
     const Usuario = app.db.models.Usuario;
+    const Ubicacion = app.db.models.Ubicacion;
+    const Perfil = app.db.models.Perfil;
   
     app.route('/usuario')
       .get((req, res) => {
-        Usuario.findAll({})
+        Usuario.findAll({
+          include: [
+            {model: Ubicacion},
+            {model: Perfil}
+          ]
+        })
           .then(result => res.json(result))
           .catch(error => {
             res.status(412).json({msg: error.message});

@@ -1,10 +1,15 @@
 module.exports = app => {
 
   const Raza = app.db.models.Raza;
+  const Animal = app.db.models.Animal;
 
   app.route('/raza')
     .get((req, res) => {
-      Raza.findAll({})
+      Raza.findAll({
+        include: [
+          {model: Animal}
+        ]
+      })
         .then(result => res.json(result))
         .catch(error => {
           res.status(412).json({msg: error.message});
@@ -20,7 +25,12 @@ module.exports = app => {
 
     app.route('/raza/:Id_raza')
     .get((req, res) => {
-      Raza.findOne({where: req.params})
+      Raza.findOne({
+        where: req.params,
+        include: [
+          {model: Animal}
+        ]
+      })
         .then(result => {
           if (result) {
             res.json(result);
