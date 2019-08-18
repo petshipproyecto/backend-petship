@@ -2,7 +2,7 @@ module.exports = (sequelize, DataType) => {
 
     const Usuario = sequelize.define('Usuario', {
       Id_usuario: {
-        type: DataType.BIGINT,
+        type: DataType.STRING(50),
         primaryKey: true,
         autoIncrement: true
       },
