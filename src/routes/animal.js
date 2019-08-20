@@ -25,7 +25,12 @@ module.exports = app => {
 
   app.route('/animal/:Id_animal')
     .get((req, res) => {
-      Animal.findOne({where: req.params})
+      Animal.findOne({
+        where: req.params,
+        include: [{
+          model: Raza
+        }]
+      })
         .then(result => {
           if (result) {
             res.json(result);
