@@ -27,7 +27,7 @@ module.exports = app => {
 
       
   
-      app.route('/usuario/:Id_usuario')
+      app.route('/usuario/:Usr_cod')
       .get((req, res) => {
         Usuario.findOne({
           where: req.params,
