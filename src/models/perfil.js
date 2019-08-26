@@ -23,7 +23,7 @@ module.exports = (sequelize, DataType) => {
     Perfil.associate = (models) => {
         Perfil.belongsTo(models.Raza, { foreignKey: 'Id_raza' });
         Perfil.belongsTo(models.Genero, { foreignKey: 'Id_genero'});
-        Perfil.belongsTo(models.Usuario, { foreignKey: 'Id_usuario'});
+        Perfil.belongsTo(models.Usuario, { foreignKey: 'Usr_cod'});
     };
   
     return Perfil;
