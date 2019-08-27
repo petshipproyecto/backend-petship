@@ -17,10 +17,12 @@ module.exports = app => {
     db = {
       sequelize,
       Sequelize,
-      models: {}
+      models: {},
+      controllers: {}
     };
     
     const dir = path.join(__dirname, 'models');
+    const dircontroller = path.join(__dirname, 'controllers');
     
     fs.readdirSync(dir).forEach(filename => {
       const modelDir = path.join(dir, filename);
@@ -31,6 +33,7 @@ module.exports = app => {
     Object.keys(db.models).forEach(key => {
       db.models[key].associate(db.models);
     });
+    
   }
 
   return db;

@@ -1,64 +1,29 @@
 module.exports = app => {
 
-    const Usuario = app.db.models.Usuario;
-    const Ubicacion = app.db.models.Ubicacion;
-    const Perfil = app.db.models.Perfil;
+    const UsuarioController = require('../controllers/usuarioController') (app.db.models);
   
     app.route('/usuario')
+      // Obtener todos los usuarios
       .get((req, res) => {
-        Usuario.findAll({
-          include: [
-            {model: Ubicacion},
-            {model: Perfil}
-          ]
-        })
-          .then(result => res.json(result))
-          .catch(error => {
-            res.status(412).json({msg: error.message});
-          });
+        UsuarioController.list(req, res);
       })
+      // Alta Usuario
       .post((req, res) => {
-        Usuario.create(req.body)
-          .then(result => res.json(result))
-          .catch(error => {
-            res.status(412).json({msg: error.message});
-          });
+        UsuarioController.create(req.params, res);
       });
 
-      
-  
-      app.route('/usuario/:Usr_cod')
+    app.route('/usuario/:Usr_cod')
       .get((req, res) => {
-        Usuario.findOne({
-          where: req.params,
-          include: [
-            {model: Ubicacion},
-            {model: Perfil}
-          ]
-        })
-          .then(result => {
-            if (result) {
-              res.json(result);
-            } else {
-              res.sendStatus(404);
-            }
-          })
-          .catch(error => {
-            res.status(412).json({msg: error.message});
-          });
+        // Obtener Usuario
+        UsuarioController.get(req, res);
       })
       .put((req, res) => {
-        Usuario.update(req.body, {where: req.params})
-          .then(result => res.sendStatus(204))
-          .catch(error => {
-            res.status(412).json({msg: error.message});
-          });
+        // Actualizar Usuario
+        UsuarioController.get(req,res);
       })
       .delete((req, res) => {
-        Usuario.destroy({where: req.params})
-          .then(result => res.sendStatus(204))
-          .catch(error => {
-            res.status(204).json({msg: error.message});
-          });
+        // Eliminar Usuario
+        UsuarioController.destroy(req, res);
       });
+      
   };
