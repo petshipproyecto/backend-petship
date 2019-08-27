@@ -9,7 +9,7 @@ module.exports = app => {
       })
       // Alta Usuario
       .post((req, res) => {
-        UsuarioController.create(req.params, res);
+        UsuarioController.create(req, res);
       });
 
     app.route('/usuario/:Usr_cod')
