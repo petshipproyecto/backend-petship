@@ -19,7 +19,7 @@ module.exports = app => {
       })
       .put((req, res) => {
         // Actualizar Usuario
-        UsuarioController.get(req,res);
+        UsuarioController.update(req, res);
       })
       .delete((req, res) => {
         // Eliminar Usuario

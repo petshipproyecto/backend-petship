@@ -18,6 +18,7 @@ module.exports = (models) => {
   
   // CREATE
   UsuarioController.create = function (req, res) {
+    console.log(req.body);
     models.Usuario.create(req.body)
         .then(result => res.json(result))
         .catch(error => {
