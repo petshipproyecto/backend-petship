@@ -22,9 +22,6 @@ module.exports = (sequelize, DataType) => {
         type: DataType.STRING(50),
         allowNull: true,
         unique: true
-      },
-      Id_perfil_activo: {
-        type: DataType.BIGINT
       }
     });
   
