@@ -20,8 +20,12 @@ module.exports = (sequelize, DataType) => {
       },
       Usr_cod: {
         type: DataType.STRING(50),
-        allowNull: true,
+        allowNull: false,
         unique: true
+      },
+      Imagen: {
+        type: DataType.STRING,
+        allowNull: true,
       }
     });
   

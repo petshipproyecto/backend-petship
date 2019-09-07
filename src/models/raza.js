@@ -15,6 +15,7 @@ module.exports = (sequelize, DataType) => {
     Raza.associate = (models) => {
         Raza.belongsTo(models.Animal, {foreignKey: "Id_animal"});
         Raza.hasMany(models.Perfil, {foreignKey: "Id_raza"});
+        Raza.belongsToMany(models.Preferencia, {through: 'Preferencia_Raza', foreignKey: 'Id_raza'})
     };
   
     return Raza;
