@@ -1,19 +1,12 @@
 module.exports = (models) => {
   
-    var PerfilController = {};
+    var PreferenciaController = {};
     
     // LIST
-    PerfilController.list = function (req, res) {
-        models.Perfil.findAll({
+    PreferenciaController.list = function (req, res) {
+        models.Preferencia.findAll({
             include: [
-              {
-                model: models.Raza,
-                include: [
-                  {model: models.Animal}
-                ]
-              },
-              {model: models.Preferencia},
-              {model: models.Genero},
+              {model: models.Raza},
               {model: models.Usuario}
             ]
           })
@@ -24,32 +17,16 @@ module.exports = (models) => {
       }
     
     // CREATE
-    PerfilController.create = function (req, res) {
-        models.Usuario.findOne({
-            where: {Usr_cod : req.body.Usr_cod}
-        })
-            .then(usuario => {
-                return {
-                    "Nombre": req.body.Nombre,
-                    "Edad": req.body.Edad,
-                    "Imagen": req.body.Imagen,
-                    "Id_genero": req.body.Id_genero,
-                    "Id_raza": req.body.Id_raza,
-                    "Id_usuario": usuario.Id_usuario
-                };
-            })
-            .then(data => {
-                console.log(data)
-                models.Perfil.create(data)
-                    .then(result => res.json(result))
-                    .catch(error => {
-                    res.status(412).json({msg: error.message});
-                    });
+    PreferenciaController.create = function (req, res) {
+        models.Preferencia.create(data)
+            .then(result => res.json(result))
+            .catch(error => {
+            res.status(412).json({msg: error.message});
             });
     }
   
     // GET
-    PerfilController.get = function (req, res) {
+    PreferenciaController.get = function (req, res) {
         models.Perfil.findOne({
             where: req.params,
             include: [
@@ -76,7 +53,7 @@ module.exports = (models) => {
     }
   
     //UPDATE
-    PerfilController.update = function (req, res) {
+    PreferenciaController.update = function (req, res) {
         models.Perfil.update(req.body, {where: req.params})
             .then(result => res.sendStatus(204))
             .catch(error => {
@@ -85,7 +62,7 @@ module.exports = (models) => {
     }
   
     // DESTROY
-    PerfilController.destroy = function (req, res) {
+    PreferenciaController.destroy = function (req, res) {
       models.Perfil.destroy({where: req.params})
         .then(result => res.sendStatus(204))
         .catch(error => {
@@ -93,5 +70,5 @@ module.exports = (models) => {
         });
     }
   
-    return PerfilController;
+    return PreferenciaController;
   };
