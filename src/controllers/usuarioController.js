@@ -9,6 +9,12 @@ module.exports = (models) => {
           {model: models.Ubicacion},
           {model: models.Perfil,
             include: [
+              {
+                model: models.Raza,
+                include: [
+                  {model: models.Animal}
+                ]
+              },
               {model: models.Genero}
             ]}
         ]
@@ -37,6 +43,12 @@ module.exports = (models) => {
         {model: models.Ubicacion},
         {model: models.Perfil,
           include: [
+            {
+              model: models.Raza,
+              include: [
+                {model: models.Animal}
+              ]
+            },
             {model: models.Genero}
           ]
         }
