@@ -7,7 +7,10 @@ module.exports = (models) => {
       models.Usuario.findAll({
         include: [
           {model: models.Ubicacion},
-          {model: models.Perfil}
+          {model: models.Perfil,
+            include: [
+              {model: models.Genero}
+            ]}
         ]
       })
         .then(result => res.json(result))
@@ -32,7 +35,11 @@ module.exports = (models) => {
       where: req.params,
       include: [
         {model: models.Ubicacion},
-        {model: models.Perfil}
+        {model: models.Perfil,
+          include: [
+            {model: models.Genero}
+          ]
+        }
       ]
     })
       .then(result => {
