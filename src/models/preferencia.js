@@ -23,14 +23,14 @@ module.exports = (sequelize, DataType) => {
         allowNull: false,
       },
       Distancia_max: {
-        type: DataType.BOOLEAN,
+        type: DataType.INTEGER,
         allowNull: false
       }
     });
   
     Preferencia.associate = (models) => {
-        Preferencia.hasOne(models.Perfil, { foreignKey:  'Id_preferencia_pareja', allowNull: true});
-        Preferencia.hasOne(models.Perfil, { foreignKey:  'Id_preferencia_amistad', allowNull: true});
+        Preferencia.hasOne(models.Perfil, { as: 'PreferenciaPareja', foreignKey:  'Id_preferencia_pareja', allowNull: true});
+        Preferencia.hasOne(models.Perfil, { as: 'PreferenciaAmistad', foreignKey:  'Id_preferencia_amistad', allowNull: true});
         Preferencia.belongsToMany(models.Raza, {through: 'Preferencia_Raza', foreignKey: 'Id_preferencia'});
     };
   

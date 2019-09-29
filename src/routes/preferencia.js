@@ -25,4 +25,5 @@ module.exports = app => {
         // DESTROY
         PreferenciaController.destroy(req, res);
       });
+      
   };

@@ -14,11 +14,11 @@ module.exports = (sequelize, DataType) => {
         type: DataType.INTEGER,
         allowNull: false,
       },
-      InteresPareja: {
+      Interes_pareja: {
         type: DataType.BOOLEAN,
         allowNull: true
       },
-      InteresAmistad: {
+      Interes_amistad: {
         type: DataType.BOOLEAN,
         allowNull: true
       },
@@ -32,8 +32,8 @@ module.exports = (sequelize, DataType) => {
         Perfil.belongsTo(models.Raza, { foreignKey: 'Id_raza' });
         Perfil.belongsTo(models.Genero, { foreignKey: 'Id_genero' });
         Perfil.belongsTo(models.Usuario, { foreignKey: 'Id_usuario' });
-        Perfil.belongsTo(models.Preferencia, { foreignKey: 'Id_preferencia_pareja', allowNull: true });
-        Perfil.belongsTo(models.Preferencia, { foreignKey: 'Id_preferencia_amistad', allowNull: true });
+        Perfil.belongsTo(models.Preferencia, { as: 'PreferenciaPareja', foreignKey: 'Id_preferencia_pareja', allowNull: true });
+        Perfil.belongsTo(models.Preferencia, { as: 'PreferenciaAmistad', foreignKey: 'Id_preferencia_amistad', allowNull: true });
     };
   
     return Perfil;

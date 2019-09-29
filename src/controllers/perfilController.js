@@ -12,7 +12,20 @@ module.exports = (models) => {
                   {model: models.Animal}
                 ]
               },
-              {model: models.Preferencia},
+              {
+                model: models.Preferencia,
+                as: 'PreferenciaPareja',
+                include: [
+                  {model: models.Raza}
+                ]
+              },
+              {
+                model: models.Preferencia,
+                as: 'PreferenciaAmistad',
+                include: [
+                  {model: models.Raza}
+                ]
+              },
               {model: models.Genero},
               {model: models.Usuario}
             ]
@@ -59,6 +72,20 @@ module.exports = (models) => {
                   {model: models.Animal}
                 ]
               },
+              {
+                model: models.Preferencia,
+                as: 'PreferenciaPareja',
+                include: [
+                  {model: models.Raza}
+                ]
+              },
+              {
+                model: models.Preferencia,
+                as: 'PreferenciaAmistad',
+                include: [
+                  {model: models.Raza}
+                ]
+              },
               {model: models.Genero},
               {model: models.Usuario}
             ]
@@ -78,9 +105,9 @@ module.exports = (models) => {
     //UPDATE
     PerfilController.update = function (req, res) {
         models.Perfil.update(req.body, {where: req.params})
-            .then(result => res.sendStatus(204))
+            .then(res => res.sendStatus(204))
             .catch(error => {
-            res.status(412).json({msg: error.message});
+              res.status(412).json({msg: error.message});
             });
     }
   

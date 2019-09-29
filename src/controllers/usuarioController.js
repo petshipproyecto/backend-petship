@@ -27,8 +27,15 @@ module.exports = (models) => {
   
   // CREATE
   UsuarioController.create = function (req, res) {
-    console.log(req.body);
-    models.Usuario.create(req.body)
+    var datosUsuario = {
+      Nombre: req.body.Nombre,
+      Apellido: req.body.Apellido,
+      Usr_cod: req.body.Usr_cod,
+      Imagen: req.body.Imagen,
+      Id_ubicacion: req.body.Id_ubicacion,
+      Id_perfil_activo: req.body.Id_perfil_activo
+    }
+    models.Usuario.create(datosUsuario)
         .then(result => res.json(result))
         .catch(error => {
           res.status(412).json({msg: error.message});
