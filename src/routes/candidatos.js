@@ -11,9 +11,10 @@ module.exports = app => {
         return new Promise(function (resolve, reject){
             Match.findAll({
                 where: {Id_perfil_origen: Id_perfil},
-                attributes: ['Id_perfil_destino']
+                attributes: ['Id_perfil_destino'],
+                raw: true
             })
-                .then(result => {resolve(result)})
+                .then(result => {resolve(result.map(result => result.Id_perfil_destino))})
                 /* .catch(error => {
                     res.status(412).json({msg: error.message});
                 }) */;
@@ -22,7 +23,9 @@ module.exports = app => {
 
     function candidatos (descartados) {
         return new Promise(function (resolve, reject){
-            Perfil.findAll()
+            Perfil.findAll({
+                    where: {Id_perfil: {[Op.notIn]: descartados}}
+                })
                 .then(result => {resolve(result)})
                 /* .catch(error => {
                     res.status(412).json({msg: error.message});
@@ -34,9 +37,7 @@ module.exports = app => {
         .get((req, res) => {
             descartados(req.body.Id_perfil)
             .then(descartados => {
-                /* console.log(descartados);
                 var ids = Array();
-                descartados.foreach( elto => {ids.push(elto.Id_perfil_destino)}); */
                 candidatos (descartados)
                     .then(candidatos => {res.json(candidatos)})
             })
