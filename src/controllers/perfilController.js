@@ -3,6 +3,14 @@ module.exports = (models) => {
     const PreferenciaController = require('./preferenciaController') (models);
     var PerfilController = {};
     
+    function setear_perfil_activo_usuario (perfil) {
+        return new Promise(function (resolve, reject){
+            models.Usuario.update({Id_perfil_activo: perfil.Id_perfil}, {where: {Id_usuario: perfil.Id_usuario}})
+            .then(res => {resolve(res)})
+            .catch(error => {reject(error)});
+        })
+    }
+    
     // LIST
     PerfilController.list = function (req, res) {
         models.Perfil.findAll({
@@ -69,8 +77,6 @@ module.exports = (models) => {
           .then(preferencia_amistad => {
             models.Preferencia.create(default_pareja)
               .then(preferencia_pareja => {
-                console.log(preferencia_pareja.dataValues);
-                console.log(preferencia_amistad.dataValues);
                 models.Usuario.findOne({ where: {Usr_cod : req.body.Usr_cod} })
                   .then(usuario => {
                       return {
@@ -85,11 +91,18 @@ module.exports = (models) => {
                       };
                   })
                   .then(data => {
-                      console.log(data)
+                      console.log(data.Id_usuario);
                       models.Perfil.create(data)
-                          .then(result => res.json(result))
+                          .then(result => {
+                            console.log(result);
+                            setear_perfil_activo_usuario(result)
+                            .then(res.json(result))
+                            .catch(error => {
+                              res.status(412).json({msg: error.message});
+                            });
+                            })
                           .catch(error => {
-                          res.status(412).json({msg: error.message});
+                            res.status(412).json({msg: error.message});
                           });
                   });
               })
@@ -140,7 +153,7 @@ module.exports = (models) => {
     //UPDATE
     PerfilController.update = function (req, res) {
         models.Perfil.update(req.body, {where: req.params})
-            .then(res => res.sendStatus(204))
+            .then(res.sendStatus(204))
             .catch(error => {
               res.status(412).json({msg: error.message});
             });
