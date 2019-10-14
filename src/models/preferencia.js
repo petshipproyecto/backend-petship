@@ -29,8 +29,8 @@ module.exports = (sequelize, DataType) => {
     });
   
     Preferencia.associate = (models) => {
-        Preferencia.hasOne(models.Perfil, { as: 'PreferenciaPareja', foreignKey:  'Id_preferencia_pareja', allowNull: true});
-        Preferencia.hasOne(models.Perfil, { as: 'PreferenciaAmistad', foreignKey:  'Id_preferencia_amistad', allowNull: true});
+        Preferencia.hasOne(models.Perfil, { as: 'Preferencia_pareja', foreignKey:  'Id_preferencia_pareja', allowNull: true});
+        Preferencia.hasOne(models.Perfil, { as: 'Preferencia_amistad', foreignKey:  'Id_preferencia_amistad', allowNull: true});
         Preferencia.belongsToMany(models.Raza, {through: 'Preferencia_Raza', foreignKey: 'Id_preferencia'});
     };
   

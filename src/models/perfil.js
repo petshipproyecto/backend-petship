@@ -32,10 +32,11 @@ module.exports = (sequelize, DataType) => {
         Perfil.belongsTo(models.Raza, { foreignKey: 'Id_raza' });
         Perfil.belongsTo(models.Genero, { foreignKey: 'Id_genero' });
         Perfil.belongsTo(models.Usuario, { foreignKey: 'Id_usuario' });
-        Perfil.belongsTo(models.Preferencia, { as: 'PreferenciaPareja', foreignKey: 'Id_preferencia_pareja', allowNull: true });
-        Perfil.belongsTo(models.Preferencia, { as: 'PreferenciaAmistad', foreignKey: 'Id_preferencia_amistad', allowNull: true });
-        Perfil.hasOne(models.Match, { as: 'PerfilOrigen', foreignKey:  'Id_perfil_origen', allowNull: true});
-        Perfil.hasOne(models.Match, { as: 'PerfilDestino', foreignKey:  'Id_perfil_destino', allowNull: true});
+        Perfil.belongsTo(models.Preferencia, { as: 'Preferencia_pareja', foreignKey: 'Id_preferencia_pareja', allowNull: true });
+        Perfil.belongsTo(models.Preferencia, { as: 'Preferencia_amistad', foreignKey: 'Id_preferencia_amistad', allowNull: true });
+        //Perfil.hasMany(models.Usuario, { as: 'Perfil_activo', foreignKey: 'Id_perfil_activo', allowNull: true });
+        Perfil.hasMany(models.Match, { as: 'Perfil_origen', foreignKey:  'Id_perfil_origen', allowNull: true});
+        Perfil.hasMany(models.Match, { as: 'Perfil_destino', foreignKey:  'Id_perfil_destino', allowNull: true});
     };
   
     return Perfil;

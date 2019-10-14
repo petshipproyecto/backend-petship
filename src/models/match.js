@@ -34,8 +34,8 @@ module.exports = (sequelize, DataType) => {
     Match.associate = (models) => {
         Match.belongsTo(models.Estado, {foreignKey: "Id_estado"});
         Match.belongsTo(models.Tipo_Match, {foreignKey: "Id_tipo_match"});
-        Match.belongsTo(models.Perfil, { as: 'PerfilOrigen', foreignKey: 'Id_perfil_origen', allowNull: true });
-        Match.belongsTo(models.Perfil, { as: 'PerfilDestino', foreignKey: 'Id_perfil_destino', allowNull: true });
+        Match.belongsTo(models.Perfil, { as: 'Perfil_origen', foreignKey: 'Id_perfil_origen', allowNull: true });
+        Match.belongsTo(models.Perfil, { as: 'Perfil_destino', foreignKey: 'Id_perfil_destino', allowNull: true });
     };
   
     return Match;

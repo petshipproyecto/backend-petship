@@ -122,14 +122,14 @@ module.exports = (models) => {
               },
               {
                 model: models.Preferencia,
-                as: 'PreferenciaPareja',
+                as: 'Preferencia_pareja',
                 include: [
                   {model: models.Raza}
                 ]
               },
               {
                 model: models.Preferencia,
-                as: 'PreferenciaAmistad',
+                as: 'Preferencia_amistad',
                 include: [
                   {model: models.Raza}
                 ]

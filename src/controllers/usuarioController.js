@@ -48,6 +48,34 @@ module.exports = (models) => {
       where: req.params,
       include: [
         {model: models.Ubicacion},
+        {
+          model: models.Perfil,
+          as: 'Perfil_activo',
+          include:[
+            {
+              model: models.Raza,
+              include: [
+                {model: models.Animal}
+              ]
+            },
+            {
+              model: models.Preferencia,
+              as: 'Preferencia_pareja',
+              include: [
+                {model: models.Raza}
+              ]
+            },
+            {
+              model: models.Preferencia,
+              as: 'Preferencia_amistad',
+              include: [
+                {model: models.Raza}
+              ]
+            },
+            {model: models.Genero},
+            {model: models.Usuario}
+          ]
+        },
         {model: models.Perfil,
           include: [
             {
