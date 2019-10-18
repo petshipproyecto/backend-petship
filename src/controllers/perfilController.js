@@ -94,7 +94,6 @@ module.exports = (models) => {
                       console.log(data.Id_usuario);
                       models.Perfil.create(data)
                           .then(result => {
-                            console.log(result);
                             setear_perfil_activo_usuario(result)
                             .then(res.json(result))
                             .catch(error => {

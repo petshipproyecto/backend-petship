@@ -20,7 +20,15 @@ module.exports = app => {
     function descartados (Id_perfil) {
         return new Promise(function (resolve, reject){
             Match.findAll({
-                where: {Id_perfil_origen: Id_perfil},
+                where: {
+                    [Op.or]: [
+                        {Id_perfil_origen: Id_perfil},
+                        {
+                            Id_perfil_destino: Id_perfil,
+                            [Op.not]: [{Id_estado: 3}]
+                        }
+                    ]
+                },
                 attributes: ['Id_perfil_destino'],
                 raw: true
             })
@@ -49,9 +57,9 @@ module.exports = app => {
         })
     }
 
-    app.route('/candidatos')
+    app.route('/candidatos/:Id_perfil')
         .get((req, res) => {
-            perfil (req.body.Id_perfil)
+            perfil (req.params.Id_perfil)
             .then(perfil => {
                 descartados (perfil.Id_perfil)
                 .then(descartados => {

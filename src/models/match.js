@@ -21,14 +21,9 @@ module.exports = (sequelize, DataType) => {
       Id_tipo_match: {
         type: DataType.BIGINT,
         allowNull: false,
-      },
-      createdAt: DataType.DATE,
-      updatedAt: DataType.DATE
-    });
-
-    Match.init({},{
-      timestamps: true,
-      sequelize
+      }
+    },{
+      timestamps: true
     });
 
     Match.associate = (models) => {
