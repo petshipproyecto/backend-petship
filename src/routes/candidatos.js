@@ -7,6 +7,7 @@ module.exports = app => {
     const Match = app.db.models.Match;
     const Perfil = app.db.models.Perfil;
     const Raza = app.db.models.Raza;
+    const Animal = app.db.models.Animal;
     
     function perfil (Id_perfil) {
         return new Promise(function (resolve, reject){
@@ -46,7 +47,13 @@ module.exports = app => {
                             Id_perfil: {[Op.notIn]: descartados},
                             Id_usuario: {[Op.ne]: perfil.Id_usuario}
                         },
-                    include: [{ model: Raza, where: {Id_animal: perfil.Raza.Id_animal}}]
+                    include: [
+                        {
+                            model: Raza,
+                            where: {Id_animal: perfil.Raza.Id_animal},
+                            include: [{model: Animal}]
+                        }
+                    ]
                 })
                 .then(result => {
                     resolve(result)
