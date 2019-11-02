@@ -8,12 +8,17 @@ module.exports = app => {
     const Perfil = app.db.models.Perfil;
     const Raza = app.db.models.Raza;
     const Animal = app.db.models.Animal;
+    const Preferencia = app.db.models.Preferencia;
     
     function perfil (Id_perfil) {
         return new Promise(function (resolve, reject){
             Perfil.findOne({
                 where: {Id_perfil: Id_perfil},
-                include: [{ model: Raza}]
+                include: [
+                    { model: Raza},
+                    {model: Preferencia, as: 'Preferencia_pareja'},
+                    {model: Preferencia, as: 'Preferencia_amistad'}
+                ]
             }).then(result => {resolve(result)})
         })
     }
@@ -45,7 +50,36 @@ module.exports = app => {
             Perfil.findAll({
                     where: {
                             Id_perfil: {[Op.notIn]: descartados},
-                            Id_usuario: {[Op.ne]: perfil.Id_usuario}
+                            Id_usuario: {[Op.ne]: perfil.Id_usuario},
+                            [Op.or]: [
+                                {[Op.and]: [
+                                    {Interes_pareja: true},
+                                    {Interes_pareja: perfil.Interes_pareja},
+                                    {Id_genero: {[Op.ne]: perfil.Id_genero}},
+                                    {Edad: {[Op.and]: [
+                                        {[Op.gte]: perfil.Preferencia_pareja.Edad_min},
+                                        {[Op.lte]: perfil.Preferencia_pareja.Edad_max}
+                                    ]}}
+                                ]},
+                                {[Op.and]: [
+                                    {Interes_amistad: true},
+                                    {Interes_amistad: perfil.Interes_amistad},
+                                    {[Op.or]: [
+                                        {[Op.and]: [
+                                            {Id_genero: 1},
+                                            {Interes_amistad: perfil.Preferencia_amistad.Interes_macho}
+                                        ]},
+                                        {[Op.and]: [
+                                            {Id_genero: 2},
+                                            {Interes_amistad: perfil.Preferencia_amistad.Interes_hembra}
+                                        ]}
+                                    ]},
+                                    {Edad: {[Op.and]: [
+                                        {[Op.gte]: perfil.Preferencia_amistad.Edad_min},
+                                        {[Op.lte]: perfil.Preferencia_amistad.Edad_max}
+                                    ]}}
+                                ]}
+                            ]
                         },
                     include: [
                         {
