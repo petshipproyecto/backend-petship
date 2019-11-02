@@ -82,6 +82,8 @@ module.exports = (models) => {
                       return {
                           "Nombre": req.body.Nombre,
                           "Edad": req.body.Edad,
+                          "Interes_pareja": true,
+                          "Interes_amistad": false,
                           "Imagen": req.body.Imagen,
                           "Id_genero": req.body.Id_genero,
                           "Id_raza": req.body.Id_raza,
