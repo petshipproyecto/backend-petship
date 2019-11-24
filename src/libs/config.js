@@ -10,7 +10,7 @@ module.exports = {
         define: {
           timestamps: false
         },
-        //force: true,
+        force: true,
         dialectOptions: {
           ssl: true
         }

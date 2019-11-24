@@ -1,112 +1,70 @@
 import Sequelize from 'sequelize';
+import dottie from 'dottie';
 
 module.exports = app => {
 
-    
     const Op = Sequelize.Op;
     const Match = app.db.models.Match;
     const Perfil = app.db.models.Perfil;
     const Raza = app.db.models.Raza;
     const Animal = app.db.models.Animal;
     const Preferencia = app.db.models.Preferencia;
+    const sequelize = app.db.sequelize;
+    /* const Distancia = require("geo-distance"); */
     
-    function perfil (Id_perfil) {
+    function candidatos (Id_perfil) {
         return new Promise(function (resolve, reject){
-            Perfil.findOne({
-                where: {Id_perfil: Id_perfil},
-                include: [
-                    { model: Raza},
-                    {model: Preferencia, as: 'Preferencia_pareja'},
-                    {model: Preferencia, as: 'Preferencia_amistad'}
-                ]
-            }).then(result => {resolve(result)})
-        })
-    }
-
-    function descartados (Id_perfil) {
-        return new Promise(function (resolve, reject){
-            Match.findAll({
-                where: {
-                    [Op.or]: [
-                        {Id_perfil_origen: Id_perfil},
-                        {
-                            Id_perfil_destino: Id_perfil,
-                            [Op.not]: [{Id_estado: 3}]
-                        }
-                    ]
-                },
-                attributes: ['Id_perfil_destino'],
-                raw: true
+            sequelize.query(`
+            SELECT "pc"."Id_perfil" AS "Id_perfil",
+                "pc"."Nombre" AS "Nombre",
+                "pc"."Edad" AS "Edad",
+                "pc"."Imagen" AS "Imagen",
+                "pc"."Id_genero" AS "Id_genero",
+                "rc"."Id_raza" AS "Raza.Id_raza",
+                "rc"."Descripcion" AS "Raza.Descripcion",
+                "ac"."Id_animal" AS "Raza.Animal.Id_animal",
+                "ac"."Descripcion" AS "Raza.Animal.Descripcion",
+                "pc"."Id_usuario" AS "Id_usuario"
+            FROM public."Perfils" AS "p"
+                INNER JOIN public."Usuarios" AS "u" ON "p"."Id_usuario" = "u"."Id_usuario"
+                INNER JOIN public."Razas" AS "r" ON "p"."Id_raza" = "r"."Id_raza"
+                INNER JOIN public."Animals" AS "a" ON "r"."Id_animal" = "a"."Id_animal"
+                INNER JOIN public."Preferencia" AS "pa" ON "p"."Id_preferencia_amistad" = "pa"."Id_preferencia"
+                
+                INNER JOIN public."Perfils" AS "pc" ON "pc"."Id_perfil" != "p"."Id_perfil"
+                INNER JOIN public."Usuarios" AS "uc" ON "pc"."Id_usuario" = "uc"."Id_usuario"
+                INNER JOIN public."Razas" AS "rc" ON "pc"."Id_raza" = "rc"."Id_raza"
+                INNER JOIN public."Animals" AS "ac" ON "rc"."Id_animal" = "ac"."Id_animal"
+                INNER JOIN public."Preferencia" AS "pac" ON "pc"."Id_preferencia_amistad" = "pac"."Id_preferencia"
+            WHERE "p"."Id_perfil" = :Id_perfil
+                AND "p"."Interes_amistad" = "pc"."Interes_amistad"
+                AND "p"."Interes_pareja" = "pc"."Interes_pareja"
+                AND "ac"."Id_animal" = "a"."Id_animal"
+                AND ("uc"."Id_usuario" != "u"."Id_usuario")
+                AND (("pa"."Interes_macho" AND "pc"."Id_genero" = 1) OR ("pa"."Interes_hembra" AND "pc"."Id_genero" = 2))
+                AND (("pac"."Interes_macho" AND "p"."Id_genero" = 1) OR ("pac"."Interes_hembra" AND "p"."Id_genero" = 2))
+                AND (("pa"."Edad_min" <= "pc"."Edad") AND ("pa"."Edad_max" >= "pc"."Edad"))
+                AND (("pac"."Edad_min" <= "p"."Edad") AND ("pac"."Edad_max" >= "p"."Edad"))
+                AND ("pc"."Id_perfil" NOT IN (
+                    SELECT "m"."Id_perfil_destino"
+                    FROM public."Matches" AS "m"
+                    WHERE "m"."Id_perfil_origen" = "p"."Id_perfil"
+                ))
+                AND ("pc"."Id_perfil" NOT IN (
+                    SELECT "m"."Id_perfil_origen"
+                    FROM public."Matches" AS "m"
+                    WHERE "m"."Id_perfil_destino" = "p"."Id_perfil" AND "m"."Id_estado" != 3
+                ))
+            `, {raw: true, replacements: {Id_perfil: Id_perfil}}).then(rows => {
+                resolve(dottie.transform(rows[0]));
             })
-                .then(result => {resolve(result.map(result => result.Id_perfil_destino))})
-                /* .catch(error => {
-                    res.status(412).json({msg: error.message});
-                }) */
         })
     }
-
-    function candidatos (descartados, perfil) {
-        return new Promise(function (resolve, reject){
-            Perfil.findAll({
-                    where: {
-                            Id_perfil: {[Op.notIn]: descartados},
-                            Id_usuario: {[Op.ne]: perfil.Id_usuario},
-                            [Op.or]: [
-                                {[Op.and]: [
-                                    {Interes_pareja: true},
-                                    {Interes_pareja: perfil.Interes_pareja},
-                                    {Id_genero: {[Op.ne]: perfil.Id_genero}},
-                                    {Edad: {[Op.and]: [
-                                        {[Op.gte]: perfil.Preferencia_pareja.Edad_min},
-                                        {[Op.lte]: perfil.Preferencia_pareja.Edad_max}
-                                    ]}}
-                                ]},
-                                {[Op.and]: [
-                                    {Interes_amistad: true},
-                                    {Interes_amistad: perfil.Interes_amistad},
-                                    {[Op.or]: [
-                                        {[Op.and]: [
-                                            {Id_genero: 1},
-                                            {Interes_amistad: perfil.Preferencia_amistad.Interes_macho}
-                                        ]},
-                                        {[Op.and]: [
-                                            {Id_genero: 2},
-                                            {Interes_amistad: perfil.Preferencia_amistad.Interes_hembra}
-                                        ]}
-                                    ]},
-                                    {Edad: {[Op.and]: [
-                                        {[Op.gte]: perfil.Preferencia_amistad.Edad_min},
-                                        {[Op.lte]: perfil.Preferencia_amistad.Edad_max}
-                                    ]}}
-                                ]}
-                            ]
-                        },
-                    include: [
-                        {
-                            model: Raza,
-                            where: {Id_animal: perfil.Raza.Id_animal},
-                            include: [{model: Animal}]
-                        }
-                    ]
-                })
-                .then(result => {
-                    resolve(result)
-                })
-                /* .catch(error => {
-                    res.status(412).json({msg: error.message});
-                }) */
-        })
-    }
-
+    
     app.route('/candidatos/:Id_perfil')
         .get((req, res) => {
-            perfil (req.params.Id_perfil)
-            .then(perfil => {
-                descartados (perfil.Id_perfil)
-                .then(descartados => {
-                    candidatos (descartados, perfil)
-                    .then(candidatos => {res.json(candidatos)})
-                })
-            })
+            candidatos (req.params.Id_perfil)
+            .then(candidatos => {
+                res.json(candidatos)})
         })
   };

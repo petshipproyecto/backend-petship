@@ -24,9 +24,9 @@ module.exports = (models) => {
             // Setea las razas asociadas
             result.setRazas(razas)
               .then(razas => {
-                var update = {Id_preferencia_amistad: result.Id_preferencia}
+                var update = {Id_preferencia_amistad: result.Id_preferencia, Interes_pareja: false, Interes_amistad: true}
                 if(req.body.Pareja == 'True'){
-                  update = {Id_preferencia_pareja: result.Id_preferencia}
+                  update = {Id_preferencia_pareja: result.Id_preferencia, Interes_pareja: true, Interes_amistad: false}
                 }
                 return update
               })

@@ -5,7 +5,12 @@ module.exports = (sequelize, DataType) => {
         type: DataType.BIGINT,
         primaryKey: true,
         autoIncrement: true
-      },   
+      },
+      Id_messaging_token: {
+        type: DataType.STRING(50),
+        allowNull: true,
+        unique: true
+      },
       Nombre: {
         type: DataType.STRING(20),
         allowNull: false,
@@ -18,6 +23,18 @@ module.exports = (sequelize, DataType) => {
         type: DataType.STRING(50),
         allowNull: false,
         unique: true
+      },
+      Id_localidad: {
+        type: DataType.BIGINT,
+        allowNull: true,
+      },
+      Latitud: {
+        type: DataType.STRING(17),
+        allowNull: true
+      },
+      Longitud: {
+        type: DataType.STRING(17),
+        allowNull: true
       },
       Imagen: {
         type: DataType.STRING,
