@@ -7,7 +7,7 @@ module.exports = (sequelize, DataType) => {
         autoIncrement: true
       },
       Nombre: {
-        type: DataType.STRING(100),
+        type: DataType.STRING(125),
         allowNull: false,
       },
       Latitud: {

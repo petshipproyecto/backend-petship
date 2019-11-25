@@ -30,11 +30,11 @@ module.exports = (sequelize, DataType) => {
       },
       Latitud: {
         type: DataType.STRING(17),
-        allowNull: true
+        allowNull: false
       },
       Longitud: {
         type: DataType.STRING(17),
-        allowNull: true
+        allowNull: false
       },
       Imagen: {
         type: DataType.STRING,
@@ -43,7 +43,6 @@ module.exports = (sequelize, DataType) => {
     });
   
     Usuario.associate = (models) => {
-        Usuario.belongsTo(models.Ubicacion, {foreignKey: "Id_ubicacion"});
         Usuario.hasMany(models.Perfil, {foreignKey: "Id_usuario"});
         Usuario.belongsTo(models.Perfil, {as: "Perfil_activo", foreignKey: "Id_perfil_activo", constraints: false});
     };

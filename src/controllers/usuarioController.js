@@ -32,7 +32,9 @@ module.exports = (models) => {
       Apellido: req.body.Apellido,
       Usr_cod: req.body.Usr_cod,
       Imagen: req.body.Imagen,
-      Id_ubicacion: req.body.Id_ubicacion,
+      Id_localidad: '1780',
+      Latitud: '-27.4521194584549',
+      Longitud: '-58.9876174408016',
       Id_perfil_activo: req.body.Id_perfil_activo
     }
     models.Usuario.create(datosUsuario)
@@ -47,7 +49,6 @@ module.exports = (models) => {
     models.Usuario.findOne({
       where: req.params,
       include: [
-        {model: models.Ubicacion},
         {
           model: models.Perfil,
           as: 'Perfil_activo',
