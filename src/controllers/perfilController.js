@@ -59,17 +59,17 @@ module.exports = (models) => {
         default_amistad = {
           "Interes_macho": true,
           "Interes_hembra": true,
-          "Edad_min": 0,
+          "Edad_min": 1,
           "Edad_max": 14,
-          "Distancia_max": 240,
+          "Distancia_max": 30,
           "Razas": []
         }
         default_pareja = {
           "Interes_macho": interes_macho,
           "Interes_hembra": interes_hembra,
-          "Edad_min": 0,
+          "Edad_min": 1,
           "Edad_max": 14,
-          "Distancia_max": 240,
+          "Distancia_max": 30,
           "Razas": []
         }
         //Create Preferencias

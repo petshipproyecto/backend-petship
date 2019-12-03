@@ -17,6 +17,10 @@ module.exports = app => {
         "rc"."Descripcion" AS "Raza.Descripcion",
         "ac"."Id_animal" AS "Raza.Animal.Id_animal",
         "ac"."Descripcion" AS "Raza.Animal.Descripcion",
+        (CASE WHEN ACOS( SIN(PI()*CAST("u"."Latitud" AS FLOAT)/180) * SIN(PI()*CAST("uc"."Latitud" AS FLOAT)/180) + COS(PI()*CAST("u"."Latitud" AS FLOAT)/180) * COS(PI()*CAST("uc"."Latitud" AS FLOAT)/180) * COS((CAST("u"."Longitud" AS FLOAT) - CAST("uc"."Longitud" AS FLOAT))*PI()/180)) > 1
+        THEN (12436.2/PI()) * 1 * 1.609344
+        ELSE (12436.2/PI()) * ACOS( SIN(PI()*CAST("u"."Latitud" AS FLOAT)/180) * SIN(PI()*CAST("uc"."Latitud" AS FLOAT)/180) + COS(PI()*CAST("u"."Latitud" AS FLOAT)/180) * COS(PI()*CAST("uc"."Latitud" AS FLOAT)/180) * COS((CAST("u"."Longitud" AS FLOAT) - CAST("uc"."Longitud" AS FLOAT))*PI()/180)) * 1.609344
+        END) AS "Distancia",
         "pc"."Id_usuario" AS "Id_usuario",
         "pa"."Id_preferencia"
     FROM public."Perfils" AS "p"
@@ -84,6 +88,10 @@ module.exports = app => {
         "rc"."Descripcion" AS "Raza.Descripcion",
         "ac"."Id_animal" AS "Raza.Animal.Id_animal",
         "ac"."Descripcion" AS "Raza.Animal.Descripcion",
+        (CASE WHEN ACOS( SIN(PI()*CAST("u"."Latitud" AS FLOAT)/180) * SIN(PI()*CAST("uc"."Latitud" AS FLOAT)/180) + COS(PI()*CAST("u"."Latitud" AS FLOAT)/180) * COS(PI()*CAST("uc"."Latitud" AS FLOAT)/180) * COS((CAST("u"."Longitud" AS FLOAT) - CAST("uc"."Longitud" AS FLOAT))*PI()/180)) > 1
+        THEN (12436.2/PI()) * 1 * 1.609344
+        ELSE (12436.2/PI()) * ACOS( SIN(PI()*CAST("u"."Latitud" AS FLOAT)/180) * SIN(PI()*CAST("uc"."Latitud" AS FLOAT)/180) + COS(PI()*CAST("u"."Latitud" AS FLOAT)/180) * COS(PI()*CAST("uc"."Latitud" AS FLOAT)/180) * COS((CAST("u"."Longitud" AS FLOAT) - CAST("uc"."Longitud" AS FLOAT))*PI()/180)) * 1.609344
+        END) AS "Distancia",
         "pc"."Id_usuario" AS "Id_usuario",
         "pa"."Id_preferencia"
     FROM public."Perfils" AS "p"
