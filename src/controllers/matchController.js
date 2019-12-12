@@ -3,6 +3,7 @@ import Sequelize from 'sequelize';
 module.exports = (models) => {
   
     const Op = Sequelize.Op;
+    const NotificacionController = require('./notificacionController') (models);
     var MatchController = {};
  
     // LIKE
@@ -16,9 +17,13 @@ module.exports = (models) => {
         })
         .then(match => {
             if (match.count == 1) {
+                const Id_match = match.rows[0].Id_match
                 // Confirmar match
-                models.Match.update({Id_estado: 1}, {where: {Id_match: match.rows[0].Id_match}})
-                .then(res.sendStatus(204))
+                models.Match.update({Id_estado: 1}, {where: {Id_match: Id_match}})
+                .then(match => {
+                    NotificacionController.match(Id_match)
+                    res.sendStatus(204)
+                })
                 .catch(error => {
                 res.status(412).json({msg: error.message});
                 });

@@ -50,7 +50,7 @@ module.exports = app => {
         AND ("pc"."Id_perfil" NOT IN (
             SELECT "m"."Id_perfil_origen"
             FROM public."Matches" AS "m"
-            WHERE "m"."Id_perfil_destino" = "p"."Id_perfil" AND "m"."Id_estado" = 3
+            WHERE "m"."Id_perfil_destino" = "p"."Id_perfil" AND "m"."Id_estado" = 2
         ))
         AND ("rc"."Id_raza" IN (
             SELECT "pr"."Id_raza"
@@ -121,7 +121,7 @@ module.exports = app => {
         AND ("pc"."Id_perfil" NOT IN (
             SELECT "m"."Id_perfil_origen"
             FROM public."Matches" AS "m"
-            WHERE "m"."Id_perfil_destino" = "p"."Id_perfil" AND "m"."Id_estado" = 3
+            WHERE "m"."Id_perfil_destino" = "p"."Id_perfil" AND "m"."Id_estado" = 2
         ))
         AND ("rc"."Id_raza" IN (
             SELECT "pr"."Id_raza"

@@ -1,6 +1,5 @@
 module.exports = (models) => {
   
-    const PreferenciaController = require('./preferenciaController') (models);
     var PerfilController = {};
     
     function setear_perfil_activo_usuario (perfil) {

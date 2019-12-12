@@ -6,7 +6,6 @@ module.exports = (models) => {
   UsuarioController.list = function (req, res) {
       models.Usuario.findAll({
         include: [
-          {model: models.Ubicacion},
           {model: models.Perfil,
             include: [
               {
@@ -27,21 +26,24 @@ module.exports = (models) => {
   
   // CREATE
   UsuarioController.create = function (req, res) {
-    var datosUsuario = {
-      Nombre: req.body.Nombre,
-      Apellido: req.body.Apellido,
-      Usr_cod: req.body.Usr_cod,
-      Imagen: req.body.Imagen,
-      Id_localidad: '1780',
-      Latitud: '-27.4521194584549',
-      Longitud: '-58.9876174408016',
-      Id_perfil_activo: req.body.Id_perfil_activo
-    }
-    models.Usuario.create(datosUsuario)
-        .then(result => res.json(result))
-        .catch(error => {
-          res.status(412).json({msg: error.message});
-        });
+    models.Localidad.findOne({Id_localidad: req.body.Id_localidad})
+    .then(localidad => {
+      var datosUsuario = {
+        Nombre: req.body.Nombre,
+        Apellido: req.body.Apellido,
+        Usr_cod: req.body.Usr_cod,
+        Imagen: req.body.Imagen,
+        Id_localidad: localidad.Id_localidad,
+        Latitud: localidad.Latitud,
+        Longitud: localidad.Longitud,
+        Id_perfil_activo: req.body.Id_perfil_activo
+      }
+      models.Usuario.create(datosUsuario)
+          .then(result => res.json(result))
+          .catch(error => {
+            res.status(412).json({msg: error.message});
+          });
+    })
   }
 
   // GET
@@ -73,8 +75,7 @@ module.exports = (models) => {
                 {model: models.Raza}
               ]
             },
-            {model: models.Genero},
-            {model: models.Usuario}
+            {model: models.Genero}
           ]
         },
         {model: models.Perfil,
