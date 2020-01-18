@@ -77,7 +77,7 @@ module.exports = (models) => {
                     }
                 ]
             },
-/*             include: [
+            include: [
                 {
                     model: models.Perfil,
                     as: 'Perfil_origen',
@@ -98,7 +98,7 @@ module.exports = (models) => {
                     }
                 ]
               }
-            ] */
+            ]
           })
             .then(result => {
               if (result) {
