@@ -26,8 +26,10 @@ module.exports = (models) => {
   
   // CREATE
   UsuarioController.create = function (req, res) {
-    models.Localidad.findOne({Id_localidad: req.body.Id_localidad})
+    console.log(req.body);
+    models.Localidad.findOne({where: {Id_localidad: req.body.Id_localidad}})
     .then(localidad => {
+      console.log(localidad);
       var datosUsuario = {
         Nombre: req.body.Nombre,
         Apellido: req.body.Apellido,
