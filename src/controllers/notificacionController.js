@@ -36,14 +36,56 @@ module.exports = (models) => {
 
     // NOTIFICACIONES
     NotificacionController.get = function (req, res) {
-        models.Notificacion.findAll({where: req.params})
+        models.Notificacion.findAll({
+            where: req.params,
+            include: [
+                {
+                    model: models.Match,
+                    include: [
+                        {
+                            model: models.Tipo_Match
+                        },
+                        {
+                            model: models.Estado
+                        },
+                        {
+                            model: models.Perfil,
+                            as: 'Perfil_origen',
+                            include: [
+                                {
+                                  model: models.Raza,
+                                  include: [
+                                    {model: models.Animal}
+                                  ]
+                                },
+                                {model: models.Genero},
+                                {model: models.Usuario}
+                              ]
+                        },
+                        {
+                            model: models.Perfil,
+                            as: 'Perfil_destino',
+                            include: [
+                                {
+                                  model: models.Raza,
+                                  include: [
+                                    {model: models.Animal}
+                                  ]
+                                },
+                                {model: models.Genero},
+                                {model: models.Usuario}
+                              ]
+                        }
+                    ]
+                }
+            ]
+        })
             .then(result => {res.json(result)})
             .catch(error => {
             res.status(412).json({msg: error.message});
             });
     }
 
-    
     // VISTO
     NotificacionController.visto = function (req, res) {
         models.Notificacion.update({Visto: true}, {where: req.params})
