@@ -8,11 +8,13 @@ module.exports = (models) => {
  
     // LIKE
     MatchController.like = function (req, res) {
+        console.log(req.body.Id_perfil_destino, req.body.Id_perfil_origen)
         models.Match.findAndCountAll({
             where: {
                 Id_perfil_origen: req.body.Id_perfil_destino,
                 Id_perfil_destino: req.body.Id_perfil_origen,
-                Id_tipo_match: req.body.Id_tipo_match
+                Id_tipo_match: req.body.Id_tipo_match,
+                Id_estado: 3
             }
         })
         .then(match => {
@@ -44,7 +46,8 @@ module.exports = (models) => {
             where: {
                 Id_perfil_origen: req.body.Id_perfil_destino,
                 Id_perfil_destino: req.body.Id_perfil_origen,
-                Id_tipo_match: req.body.Id_tipo_match
+                Id_tipo_match: req.body.Id_tipo_match,
+                Id_estado: 3
             }
         })
         .then(match => {
