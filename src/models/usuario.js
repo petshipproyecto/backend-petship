@@ -24,6 +24,11 @@ module.exports = (sequelize, DataType) => {
         allowNull: false,
         unique: true
       },
+      Is_admin: {
+        type: DataType.BOOLEAN,
+        allowNull: true,
+        defaultValue: false
+      },
       Id_localidad: {
         type: DataType.BIGINT,
         allowNull: true,
