@@ -1,0 +1,14 @@
+[
+    {
+        "Id_messaging_token": null,
+        "Nombre": "admin",
+        "Apellido": "admin",
+        "Usr_cod": "admin",
+        "Is_admin": true,
+        "Id_localidad": 0,
+        "Latitud": 0,
+        "Longitud": 0,
+        "Imagen": null,
+        "Id_perfil_activo": 0
+    }
+]

@@ -9,7 +9,9 @@
     "serve": "npm run build && node dist/index.js",
     "test": "npm run build && mocha --require @babel/register",
     "babel-node": "babel-node src/index.js",
-    "dev": "nodemon --exec npm run babel-node"
+    "init-project": "babel-node src/init_project.js",
+    "dev": "nodemon --exec npm run babel-node",
+    "migrar": "nodemon --exec npm run init-project"
   },
   "keywords": [],
   "author": "",
