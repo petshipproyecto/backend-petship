@@ -6,6 +6,15 @@ module.exports = (models) => {
   UsuarioController.list = function (req, res) {
       models.Usuario.findAll({
         include: [
+          {
+            model: models.Localidad,
+            include:[
+              {
+                model: models.Provincia,
+                as: 'Provincia'
+              }
+            ]
+          },
           {model: models.Perfil,
             include: [
               {
@@ -53,6 +62,15 @@ module.exports = (models) => {
     models.Usuario.findOne({
       where: req.params,
       include: [
+        {
+          model: models.Localidad,
+          include:[
+            {
+              model: models.Provincia,
+              as: 'Provincia'
+            }
+          ]
+        },
         {
           model: models.Perfil,
           as: 'Perfil_activo',

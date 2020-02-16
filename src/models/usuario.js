@@ -28,11 +28,11 @@ module.exports = (sequelize, DataType) => {
         type: DataType.BOOLEAN,
         allowNull: true,
         defaultValue: false
-      },
+      },/* 
       Id_localidad: {
         type: DataType.BIGINT,
         allowNull: true,
-      },
+      }, */
       Latitud: {
         type: DataType.STRING(17),
         allowNull: false
@@ -50,6 +50,7 @@ module.exports = (sequelize, DataType) => {
     Usuario.associate = (models) => {
         Usuario.hasMany(models.Perfil, {foreignKey: "Id_usuario"});
         Usuario.belongsTo(models.Perfil, {as: "Perfil_activo", foreignKey: "Id_perfil_activo", constraints: false});
+        Usuario.belongsTo(models.Localidad, {foreignKey: "Id_localidad", constraints: false});
     };
   
     return Usuario;
