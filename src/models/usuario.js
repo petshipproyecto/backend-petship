@@ -19,6 +19,10 @@ module.exports = (sequelize, DataType) => {
         type: DataType.STRING(20),
         allowNull: false,
       },
+      Email: {
+        type: DataType.STRING(30),
+        allowNull: false,
+      }, 
       Usr_cod: {
         type: DataType.STRING(50),
         allowNull: false,
@@ -28,11 +32,7 @@ module.exports = (sequelize, DataType) => {
         type: DataType.BOOLEAN,
         allowNull: true,
         defaultValue: false
-      },/* 
-      Id_localidad: {
-        type: DataType.BIGINT,
-        allowNull: true,
-      }, */
+      },
       Latitud: {
         type: DataType.STRING(17),
         allowNull: false
