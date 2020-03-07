@@ -42,6 +42,7 @@ module.exports = (models) => {
       var datosUsuario = {
         Nombre: req.body.Nombre,
         Apellido: req.body.Apellido,
+        Email: req.body.Email,
         Usr_cod: req.body.Usr_cod,
         Imagen: req.body.Imagen,
         Id_localidad: localidad.Id_localidad,
