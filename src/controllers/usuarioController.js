@@ -126,17 +126,31 @@ module.exports = (models) => {
   //UPDATE
   UsuarioController.update = function (req, res) {
     console.log(req.body);
-    models.Localidad.findOne({where: {Id_localidad: req.body.Id_localidad}})
-    .then(localidad => {
-      console.log(localidad);
+    if (req.body.Id_localidad > 0) {
+      models.Localidad.findOne({where: {Id_localidad: req.body.Id_localidad}})
+      .then(localidad => {
+        var datosUsuario = {
+          Nombre: req.body.Nombre,
+          Apellido: req.body.Apellido,
+          Usr_cod: req.body.Usr_cod,
+          Imagen: req.body.Imagen,
+          Id_localidad: localidad.Id_localidad,
+          Latitud: localidad.Latitud,
+          Longitud: localidad.Longitud,
+          Id_perfil_activo: req.body.Id_perfil_activo
+        }
+        models.Usuario.update(datosUsuario, {where: req.params})
+          .then(result => res.sendStatus(204))
+          .catch(error => {
+            res.status(412).json({msg: error.message});
+          });
+        });
+    }else{
       var datosUsuario = {
         Nombre: req.body.Nombre,
         Apellido: req.body.Apellido,
         Usr_cod: req.body.Usr_cod,
         Imagen: req.body.Imagen,
-        Id_localidad: localidad.Id_localidad,
-        Latitud: localidad.Latitud,
-        Longitud: localidad.Longitud,
         Id_perfil_activo: req.body.Id_perfil_activo
       }
       models.Usuario.update(datosUsuario, {where: req.params})
@@ -144,7 +158,8 @@ module.exports = (models) => {
         .catch(error => {
           res.status(412).json({msg: error.message});
         });
-      });
+    }
+    
   }
 
   // DESTROY
