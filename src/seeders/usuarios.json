@@ -6,9 +6,9 @@
         "Email": "admin@admin.com",
         "Usr_cod": "2I0ZnvrGxyM018y46N5e0XCfh3J3",
         "Is_admin": true,
-        "Id_localidad": 0,
-        "Latitud": 0,
-        "Longitud": 0,
+        "Id_localidad": 1780,
+        "Latitud": -58.98761744,
+        "Longitud": -27.45211946,
         "Imagen": null,
         "Id_perfil_activo": 0
     }
