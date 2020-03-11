@@ -13,7 +13,7 @@ module.exports = (sequelize, DataType) => {
     });
   
     Raza.associate = (models) => {
-        Raza.belongsTo(models.Animal, {foreignKey: "Id_animal"});
+        Raza.belongsTo(models.Animal, {foreignKey: "Id_animal", onDelete: 'cascade' });
         Raza.hasMany(models.Perfil, {foreignKey: "Id_raza"});
         Raza.belongsToMany(models.Preferencia, {through: 'Preferencia_Raza', foreignKey: 'Id_raza'})
     };

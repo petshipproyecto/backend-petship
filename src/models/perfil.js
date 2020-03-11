@@ -29,9 +29,9 @@ module.exports = (sequelize, DataType) => {
     });
 
     Perfil.associate = (models) => {
-        Perfil.belongsTo(models.Raza, { foreignKey: 'Id_raza' });
+        Perfil.belongsTo(models.Raza, { foreignKey: 'Id_raza', onDelete: 'cascade' });
         Perfil.belongsTo(models.Genero, { foreignKey: 'Id_genero' });
-        Perfil.belongsTo(models.Usuario, { foreignKey: 'Id_usuario' });
+        Perfil.belongsTo(models.Usuario, { foreignKey: 'Id_usuario', onDelete: 'cascade' });
         Perfil.belongsTo(models.Preferencia, { as: 'Preferencia_pareja', foreignKey: 'Id_preferencia_pareja', allowNull: true });
         Perfil.belongsTo(models.Preferencia, { as: 'Preferencia_amistad', foreignKey: 'Id_preferencia_amistad', allowNull: true });
         Perfil.hasMany(models.Match, { as: 'Perfil_origen', foreignKey:  'Id_perfil_origen', allowNull: true});

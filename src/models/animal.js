@@ -13,7 +13,7 @@ module.exports = (sequelize, DataType) => {
     });
   
     Animal.associate = (models) => {
-      Animal.hasMany(models.Raza, {foreignKey: "Id_animal"})
+      Animal.hasMany(models.Raza, {foreignKey: "Id_animal", onDelete: 'cascade', hooks: true})
     };
   
     return Animal;
