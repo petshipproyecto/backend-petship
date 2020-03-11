@@ -8,7 +8,8 @@ module.exports = app => {
       Raza.findAll({
         include: [
           {model: Animal}
-        ]
+        ],
+        order: [['Descripcion', 'ASC']]
       })
         .then(result => res.json(result))
         .catch(error => {

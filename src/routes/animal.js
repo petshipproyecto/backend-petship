@@ -1,3 +1,5 @@
+import Sequelize from 'sequelize';
+
 module.exports = app => {
   
   const Animal = app.db.models.Animal;
@@ -8,7 +10,8 @@ module.exports = app => {
       Animal.findAll({
         include: [{
           model: Raza
-        }]
+        }],
+        order: [['Descripcion', 'ASC'], [Raza, 'Descripcion', 'ASC']]
       })
         .then(result => res.json(result))
         .catch(error => {
@@ -29,7 +32,8 @@ module.exports = app => {
         where: req.params,
         include: [{
           model: Raza
-        }]
+        }],
+        order: [['Descripcion', 'ASC'], [Raza, 'Descripcion', 'ASC']]
       })
         .then(result => {
           if (result) {

@@ -13,7 +13,8 @@ module.exports = app => {
               model: Provincia,
               as: 'Provincia'
             }
-          ]
+          ],
+          order: [['Nombre', 'ASC']]
         })
           .then(result => res.json(result))
           .catch(error => {
@@ -29,7 +30,8 @@ module.exports = app => {
               model: Provincia,
               as: 'Provincia'
             }
-          ]
+          ],
+          order: [['Nombre', 'ASC']]
         })
           .then(result => res.json(result))
           .catch(error => {
