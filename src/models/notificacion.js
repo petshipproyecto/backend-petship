@@ -15,8 +15,8 @@ module.exports = (sequelize, DataType) => {
     });
 
     Notificacion.associate = (models) => {
-        Notificacion.belongsTo(models.Perfil, { foreignKey: 'Id_perfil' });
-        Notificacion.belongsTo(models.Match, { foreignKey: 'Id_match' });
+        Notificacion.belongsTo(models.Perfil, { foreignKey: 'Id_perfil', onDelete: 'cascade' });
+        Notificacion.belongsTo(models.Match, { foreignKey: 'Id_match', onDelete: 'cascade' });
     };
   
     return Notificacion;
